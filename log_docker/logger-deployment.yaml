@@ -1,0 +1,22 @@
+# web-deployment.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: bulk-logger
+  name: bulk-logger
+spec:
+  template:
+    metadata:
+      labels:
+        app: bulk-logger
+    spec:
+      containers:
+      - image: asia-northeast3-docker.pkg.dev/independent-ljh/docker-ljh/bulk-logger:latest
+        name: bulk-logger
+        env:
+        - name: "TIME_TO_RUN_IN_MINUTE"
+          value: "3"
+      nodeSelector:
+        cloud.google.com/gke-nodepool: default-pool
+      restartPolicy: Never

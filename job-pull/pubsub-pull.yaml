@@ -1,0 +1,25 @@
+# web-deployment.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: pubsub-pull
+  name: pubsub-pull
+spec:
+  parallelism: 30
+  template:
+    metadata:
+      labels:
+        app: pubsub-pull
+    spec:
+      containers:
+      - image: asia-northeast3-docker.pkg.dev/independent-ljh/docker-ljh/pubsub-pull:latest
+        name: pubsub-pull
+        env:
+        - name: "TIME_TO_RUN_IN_MINUTE"
+          value: "3"
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+      restartPolicy: Never
